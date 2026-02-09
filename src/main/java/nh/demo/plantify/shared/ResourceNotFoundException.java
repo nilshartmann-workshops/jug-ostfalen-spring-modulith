@@ -1,4 +1,4 @@
-package nh.demo.plantify.shared.exceptions;
+package nh.demo.plantify.shared;
 
 import java.util.UUID;
 

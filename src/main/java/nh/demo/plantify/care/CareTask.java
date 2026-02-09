@@ -1,7 +1,7 @@
 package nh.demo.plantify.care;
 
 import jakarta.persistence.*;
-import nh.demo.plantify.care.suggestion.CareTaskType;
+import nh.demo.plantify.shared.CareTaskType;
 
 import java.time.LocalDate;
 import java.util.Objects;

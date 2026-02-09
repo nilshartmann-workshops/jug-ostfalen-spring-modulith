@@ -1,0 +1,8 @@
+#! /bin/bash
+
+http POST http://127.0.0.1:8080/api/plants \
+  Content-Type:application/json \
+  location="Balkon" \
+  name="Cannabis (nur für medizinische Zwecke)" \
+  ownerId="ee3829e4-fe2b-4d03-b2a1-70f1425d8c1c" \
+  plantType="SUMMER_FLOWERS"

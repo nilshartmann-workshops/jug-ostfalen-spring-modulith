@@ -1,4 +1,4 @@
-package nh.demo.plantify.billing.invoice;
+package nh.demo.plantify.billing;
 
 import jakarta.persistence.*;
 
@@ -11,7 +11,14 @@ import java.util.UUID;
     schema = "billing_schema",
     name = "usage_records"
 )
-public class UsageRecord {
+class UsageRecord {
+
+    public enum UsageType {
+        SETUP_FEE,
+        CARE_TASK_COMPLETED,
+        STORAGE_COMPLETED
+    }
+
     @Id
     private UUID id;
     

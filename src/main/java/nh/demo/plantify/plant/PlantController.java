@@ -1,7 +1,7 @@
 package nh.demo.plantify.plant;
 
 import jakarta.validation.constraints.NotNull;
-import nh.demo.plantify.shared.exceptions.ResourceNotFoundException;
+import nh.demo.plantify.shared.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +44,8 @@ class PlantController {
             request.plantType(),
             request.location()
         );
+
+        log.info("🌻 New Plant registered: {}", newPlant);
 
         return PlantDto.of(newPlant);
 

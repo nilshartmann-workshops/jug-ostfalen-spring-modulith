@@ -1,0 +1,4 @@
+# Anzahl Tage als letzten Parameter angeben!
+POST http://127.0.0.1:8080/api/time-machine/20
+Content-Type: application/json
+
