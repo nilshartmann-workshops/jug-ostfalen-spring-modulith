@@ -7,6 +7,19 @@ import org.springframework.modulith.docs.Documenter;
 public class PlantifyModuleTest {
 
     @Test
+    void verify_modules() {
+        var modules = ApplicationModules
+            .of(PlantifyApplication.class);
+
+        modules.verify();
+
+        // -> PlantType in 'shared' schieben
+        //   -> andere Optionen:
+        //    - jedes Modul hat eigene Repräsentation eines Pflanzentyps
+        //    - wir bauen nachher die App sowieso nochmal um, dann kann PlantType zurück
+    }
+
+    @Test
     void write_document() {
 
         var modules = ApplicationModules
