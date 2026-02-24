@@ -42,7 +42,14 @@ public class CareTaskService {
 
         var savedCareTasks = careTaskRepository.saveAll(careTasks);
 
-        log.info(" 🌱 Initial Care Tasks created for plant '{}'", plantId);
+        log.info("""
+            
+            
+            🌱
+            🌱 Initial Care Tasks created for plant '{}'
+            🌱
+            
+            """, plantId);
     }
 
     private CareTask createFromSuggestion(UUID plantId, CareTaskSuggestion suggestion) {

@@ -30,7 +30,14 @@ public class UsageTracker {
 
         usageRepository.save(usageRecord);
 
-        log.info("🤑 Setup Fee registered for plant '{}'", plantId);
+        log.info("""
+            
+            
+            🤑
+            🤑 Setup Fee registered for plant '{}'
+            🤑
+            
+            """, plantId);
     }
 
     long getCareTaskCostCents(CareTaskType taskType) {

@@ -1,5 +1,6 @@
 package nh.demo.plantify.plant;
 
+import nh.demo.plantify.billing.UsageTracker;
 import nh.demo.plantify.care.CareTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,29 +17,42 @@ class PlantService {
 
     private final PlantRepository plantRepository;
     private final CareTaskService careTaskService;
+    private final UsageTracker usageTracker;
 
-    PlantService(PlantRepository plantRepository, CareTaskService careTaskService) {
+    PlantService(PlantRepository plantRepository, CareTaskService careTaskService, UsageTracker usageTracker) {
         this.plantRepository = plantRepository;
         this.careTaskService = careTaskService;
+        this.usageTracker = usageTracker;
     }
 
     @Transactional
     Plant registerPlant(UUID ownerId, String name, PlantType plantType, String location) {
-//        // Keine Duplikate für denselben Owner
-//        if (plantRepository.existsByOwnerIdAndName(ownerId, name)) {
-//            throw new IllegalArgumentException("Plant with name '%s' already exists for this owner".formatted(name));
-//        }
 
+        // Pflanze in DB speichern
         var plant = new Plant(ownerId, name, plantType, location);
         plantRepository.save(plant);
 
+        // Care-Tasks anlegen
         careTaskService.setupInitialCareTasks(
             plant.getId(),
             plant.getPlantType(),
             plant.getLocation()
         );
 
-        // todo: INITIAL_FEE abrechnen!
+        // Einrichtungsgebühr berechnen
+        usageTracker.registerSetupFee(
+            plant.getId(),
+            plant.getOwnerId()
+        );
+
+        log.info("""
+            
+            
+            ✅
+            ✅ New plant registered '{}'
+            ✅
+            
+            """, plant.getId());
 
         return plant;
     }

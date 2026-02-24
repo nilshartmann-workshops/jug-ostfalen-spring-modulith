@@ -6,11 +6,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
-interface CareTaskSuggestionFactory {
+public interface CareTaskSuggestionFactory {
 
     List<CareTaskSuggestion> createSuggestion(PlantType plantType, String location);
-
-
 
 }
 

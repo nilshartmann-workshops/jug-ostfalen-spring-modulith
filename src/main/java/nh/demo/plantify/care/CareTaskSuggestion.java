@@ -4,7 +4,7 @@ import nh.demo.plantify.shared.CareTaskType;
 
 import java.time.LocalDate;
 
-sealed interface CareTaskSuggestion
+public sealed interface CareTaskSuggestion
     permits CareTaskSuggestion.OneTimeCareTaskSuggestion, CareTaskSuggestion.RecurringCareTaskSuggestion {
 
     CareTaskType taskType();

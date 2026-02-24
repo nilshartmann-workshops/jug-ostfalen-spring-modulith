@@ -1,28 +1,22 @@
 # Spring Modulith Example Application
 
-This repository contains the code of my talk "Einführung in Spring Modulith" (Java User Group Hamburg, February 2026)
+This repository contains the code of my talk "Modularisierung pragmatisch: Ein praktischer Deep Dive in Spring Modulith"
 
 ![Roses](./roses.png)
-
-## Slides
-
-- You can find the slides (PDF, german) for the talk here: https://github.com/nilshartmann/spring-modulith-talk/raw/main/spring-modulith-jughh-2026.pdf
 
 ## Branches
 
 - This repository contains four branches with different states of the application:
-  - `main`: initial code base used for live coding
-  - [`live_coding`](https://github.com/nilshartmann-workshops/spring-modulith-jughh/tree/live_coding): that is the code that I wrote during the talk
-  - [`prepare`](https://github.com/nilshartmann-workshops/spring-modulith-jughh/tree/prepare): this contains all code that I intendend to show (spoiler: was too much, we didn't had a look at flyway migrations and test cases). In the [commit list of that branch](https://github.com/nilshartmann-workshops/spring-modulith-jughh/commits/prepare/) you find single commits each with one (sub)topic we discussed. **Probably the best way to "get started" with this application and the talk.**
-  - [`demo_app`](https://github.com/nilshartmann-workshops/spring-modulith-jughh/tree/demo_app) contains the version of the app I used in the inital demo. It is slightly different structured and contains some more events and endpoints, that I removed to simplify the code base for live coding.
-    - The partly vibe coded React frontend can be found here: https://github.com/nilshartmann/plantify-frontend
+    - `main`: initial code base used for live coding
+    - [`live_coding`](https://github.com/nilshartmann-workshops/spring-modulith-md-dev-days/tree/live_coding): that is the code that I wrote during the talk
+    - [`prepare`](https://github.com/nilshartmann-workshops/spring-modulith-md-dev-days/tree/prepare): this contains all code that I intendend to show (spoiler: was too much, we didn't had a look at flyway migrations and test cases). In the [commit list of that branch](https://github.com/nilshartmann-workshops/spring-modulith-md-dev-days/commits/prepare/) you find single commits each with one (sub)topic we discussed. **Probably the best way to "get started" with this application and the talk.**
 
 # Examples
 
 In this repository you'll find examples for:
 - application modules
 - named interfaces (`care.suggestion`)
-- open application modules ( `shared`)
+- open application modules (`shared`)
 - moments API (`InvoiceGenerator`)
 - modularized flyway migration scripts (`resources/db/migration`)
 - async event handling (`CareService`, `UsageTracker`)
