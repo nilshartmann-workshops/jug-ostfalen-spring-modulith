@@ -1,4 +1,4 @@
-package nh.demo.plantify.care;
+package nh.demo.plantify.care.suggestions;
 
 import nh.demo.plantify.plant.PlantType;
 
@@ -9,4 +9,3 @@ public interface CareSuggestionFactory {
     List<CareSuggestion> createSuggestion(PlantType plantType, String location);
 
 }
-

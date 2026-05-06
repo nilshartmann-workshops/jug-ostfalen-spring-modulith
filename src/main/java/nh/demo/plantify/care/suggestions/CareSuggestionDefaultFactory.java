@@ -1,7 +1,7 @@
-package nh.demo.plantify.care;
+package nh.demo.plantify.care.suggestions;
 
-import nh.demo.plantify.plant.PlantType;
 import nh.demo.plantify.shared.CareTaskType;
+import nh.demo.plantify.plant.PlantType;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
