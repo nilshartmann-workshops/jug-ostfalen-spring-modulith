@@ -1,6 +1,11 @@
 POST http://127.0.0.1:8080/api/plants
 Content-Type: application/json
 
+# Log Ausgaben!
+#  - initial care tasks
+#  - setup fee
+#  - plant registered
+
 {
   "location": "Balkon",
   "name": "Cannabis (nur für medizinische Zwecke)",

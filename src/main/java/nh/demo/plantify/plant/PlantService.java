@@ -32,6 +32,13 @@ class PlantService {
         var plant = new Plant(ownerId, name, plantType, location);
         plantRepository.save(plant);
 
+        // Ausführen: ./add-plant.sh
+        //
+        // Hier haben wir zwei Aufrufe von anderen Services
+        //
+        //  🤔 Was sind die Konsequenzen?
+
+
         // Care-Tasks anlegen
         careService.setupInitialCareTasks(
             plant.getId(),
