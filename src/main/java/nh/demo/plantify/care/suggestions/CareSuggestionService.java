@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// Klasse ist public, aber nicht von außerhalb zugreifbar,
+// weil nicht Bestandteil des NamedInterface
 @Service
 public class CareSuggestionService {
 

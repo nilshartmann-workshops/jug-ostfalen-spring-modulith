@@ -13,6 +13,7 @@ class RoseCareSuggestionFactory implements CareSuggestionFactory {
 //                                                    ^--- Problem: internes API
     @Override
     public List<CareSuggestion> createSuggestion(PlantType plantType, String location) {
+//                      ^--- IntelliJ Bug, wird weiterhin als Fehler angezeigt, Test ist grün
 //                      ^--- Problem: internes API
 
         return List.of();
