@@ -8,18 +8,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-class CareTaskSuggestionDefaultFactory implements CareTaskSuggestionFactory {
+class CareSuggestionDefaultFactory implements CareSuggestionFactory {
 
     @Override
-    public List<CareTaskSuggestion> createSuggestion(PlantType plantType, String location) {
-        // Nur Defaults: spezialisierte Implementierungen einer CareTaskSuggestionFactory
+    public List<CareSuggestion> createSuggestion(PlantType plantType, String location) {
+        // Nur Defaults: spezialisierte Implementierungen einer CareSuggestionFactory
         // sollten bessere Werte liefern (z.B. anhängig von PlantType und Location)
         return List.of(
             // Jede Pflanze einmal umtopfen
-            new CareTaskSuggestion.OneTimeCareTaskSuggestion(CareTaskType.REPOTTING, 1, LocalDate.now().plusDays(1)),
+            new CareSuggestion.OneTimeCareSuggestion(CareTaskType.REPOTTING, 1, LocalDate.now().plusDays(1)),
 
             // Jede Pflanze alle fünf Tage wässern
-            new CareTaskSuggestion.RecurringCareTaskSuggestion(CareTaskType.WATERING, 1, 5)
+            new CareSuggestion.RecurringCareSuggestion(CareTaskType.WATERING, 1, 5)
         );
     }
 }

@@ -11,23 +11,23 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
-public class CareTaskService {
+public class CareService {
 
-    private static final Logger log = LoggerFactory.getLogger(CareTaskService.class);
+    private static final Logger log = LoggerFactory.getLogger(CareService.class);
 
     private final CareTaskRepository careTaskRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final CareTaskSuggestionService careTaskSuggestionService;
+    private final CareSuggestionService careSuggestionService;
 
-    CareTaskService(CareTaskRepository careTaskRepository, ApplicationEventPublisher applicationEventPublisher, CareTaskSuggestionService careTaskSuggestionService) {
+    CareService(CareTaskRepository careTaskRepository, ApplicationEventPublisher applicationEventPublisher, CareSuggestionService careSuggestionService) {
         this.careTaskRepository = careTaskRepository;
         this.applicationEventPublisher = applicationEventPublisher;
-        this.careTaskSuggestionService = careTaskSuggestionService;
+        this.careSuggestionService = careSuggestionService;
     }
 
     @Transactional
-    public void setupInitialCareTasks(UUID plantId, PlantType plantType, String location) {
-        var suggestionsForPlant = careTaskSuggestionService.getBestSuggestionsByPlantType(
+    public void setupInitialCareTasks(UUID plantId, UUID ownerId, PlantType plantType, String location) {
+        var suggestionsForPlant = careSuggestionService.getBestSuggestionsByPlantType(
             plantType,
             location
         );
@@ -46,22 +46,26 @@ public class CareTaskService {
             
             
             🌱
-            🌱 Initial Care Tasks created for plant '{}'
+            🌱 Initial Care Tasks created for plant '{}' (owner '{}')
             🌱
             
-            """, plantId);
+            """, plantId, ownerId);
+
+//        applicationEventPublisher.publishEvent(
+//            CareTasksScheduledEvent.of(plantId, ownerId, careTasks)
+//        );
     }
 
-    private CareTask createFromSuggestion(UUID plantId, CareTaskSuggestion suggestion) {
+    private CareTask createFromSuggestion(UUID plantId, CareSuggestion suggestion) {
         return switch (suggestion) {
-            case CareTaskSuggestion.OneTimeCareTaskSuggestion s -> new CareTask(
+            case CareSuggestion.OneTimeCareSuggestion s -> new CareTask(
                 plantId,
                 s.taskType(),
                 CareTaskSource.SYSTEM,
                 s.dueDate(),
                 null  // kein Interval
             );
-            case CareTaskSuggestion.RecurringCareTaskSuggestion s -> new CareTask(
+            case CareSuggestion.RecurringCareSuggestion s -> new CareTask(
                 plantId,
                 s.taskType(),
                 CareTaskSource.SYSTEM,

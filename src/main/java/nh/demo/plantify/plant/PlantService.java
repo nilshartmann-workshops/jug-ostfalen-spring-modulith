@@ -1,7 +1,7 @@
 package nh.demo.plantify.plant;
 
 import nh.demo.plantify.billing.UsageTracker;
-import nh.demo.plantify.care.CareTaskService;
+import nh.demo.plantify.care.CareService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ class PlantService {
     private static final Logger log = LoggerFactory.getLogger(PlantService.class);
 
     private final PlantRepository plantRepository;
-    private final CareTaskService careTaskService;
+    private final CareService careService;
     private final UsageTracker usageTracker;
 
-    PlantService(PlantRepository plantRepository, CareTaskService careTaskService, UsageTracker usageTracker) {
+    PlantService(PlantRepository plantRepository, CareService careService, UsageTracker usageTracker) {
         this.plantRepository = plantRepository;
-        this.careTaskService = careTaskService;
+        this.careService = careService;
         this.usageTracker = usageTracker;
     }
 
@@ -33,8 +33,9 @@ class PlantService {
         plantRepository.save(plant);
 
         // Care-Tasks anlegen
-        careTaskService.setupInitialCareTasks(
+        careService.setupInitialCareTasks(
             plant.getId(),
+            plant.getOwnerId(),
             plant.getPlantType(),
             plant.getLocation()
         );

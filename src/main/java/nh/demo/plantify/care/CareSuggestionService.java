@@ -9,20 +9,20 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-class CareTaskSuggestionService {
+class CareSuggestionService {
 
-    private final List<CareTaskSuggestionFactory> factories;
+    private final List<CareSuggestionFactory> factories;
 
-    CareTaskSuggestionService(List<CareTaskSuggestionFactory> factories) {
+    CareSuggestionService(List<CareSuggestionFactory> factories) {
         this.factories = factories;
     }
 
-    public List<CareTaskSuggestion> getBestSuggestionsByPlantType(PlantType plantType, String location) {
+    public List<CareSuggestion> getBestSuggestionsByPlantType(PlantType plantType, String location) {
         return factories.stream()
             .flatMap(f -> f.createSuggestion(plantType, location).stream())
             .collect(Collectors.groupingBy(
-                CareTaskSuggestion::taskType,
-                Collectors.maxBy(Comparator.comparingInt(CareTaskSuggestion::confidence))
+                CareSuggestion::taskType,
+                Collectors.maxBy(Comparator.comparingInt(CareSuggestion::confidence))
             ))
             .values().stream()
             .flatMap(Optional::stream)

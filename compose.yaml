@@ -11,3 +11,7 @@ services:
     image: apache/kafka-native:4.1.1
     ports:
       - "9092:9092"
+  zipkin:
+    image: openzipkin/zipkin:3
+    ports:
+      - "9411:9411"
