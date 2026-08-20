@@ -24,7 +24,7 @@ public class UsageTracker {
     //  @TransactionalEventListener + @Transactional(REQUIRES_NEW) + @Async
     @ApplicationModuleListener
     void onPlantCreated(PlantRegisteredEvent event) {
-        if (true) {
+        if (false) {
             // 🤔 Was passiert, wenn hier was schiefgeht?
             // Vor dem Zeigen nochmal DB leer machen!
             //  - Tabellen "plants" und "care_tasks" befüllt ✅
