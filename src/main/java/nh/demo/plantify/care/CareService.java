@@ -60,9 +60,9 @@ public class CareService {
             
             """, plantId, ownerId);
 
-//        applicationEventPublisher.publishEvent(
-//            CareTasksScheduledEvent.of(plantId, ownerId, careTasks)
-//        );
+        applicationEventPublisher.publishEvent(
+            CareTasksScheduledEvent.of(plantId, ownerId, careTasks)
+        );
     }
 
     private CareTask createFromSuggestion(UUID plantId, CareSuggestion suggestion) {

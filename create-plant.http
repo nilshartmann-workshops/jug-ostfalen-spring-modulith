@@ -17,6 +17,9 @@ Content-Type: application/json
 #
 # Mit @ApplicationModuleListener (happy path)
 #  => Verhalten wie zuvor, asynchron
+#
+# Event-Kette:
+#  => jetzt loggt zusätzlich das owner-Modul (📬)
 
 {
   "location": "Balkon",
