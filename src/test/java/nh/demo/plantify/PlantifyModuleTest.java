@@ -23,6 +23,15 @@ public class PlantifyModuleTest {
         var modules = ApplicationModules
             .of(PlantifyApplication.class);
 
+        // Nochmal Doku erzeugen
+        //  - Wir sehen jetzt:
+        //    - depends on: verwendet Klassen
+        //    - uses: Verwendet Services
+        //    - listens to: Verwendet Events
+        //
+        // Das können wir gleich für die Tests benutzen
+
+
         new Documenter(modules)
             .writeDocumentation();
 
