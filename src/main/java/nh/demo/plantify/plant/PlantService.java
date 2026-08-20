@@ -39,15 +39,12 @@ class PlantService {
             plant.getLocation()
         ));
 
-        if (true) {
-            // Der Fehler geht an den Client zurück ✅
-            // Aber:
-            //  UsageTracker und CareService haben (asynchron) schon committed 😢
-            // Logs:
-            //  mit Glück sieht man erst die Exception,
-            //  dann die erfolgreiche Event-Verarbeitung
-            throw new IllegalStateException("Schade...");
-        }
+//        if (true) {
+//            // Der Fehler geht an den Client zurück ✅
+//            // Aber:
+//            //  UsageTracker und CareService haben (asynchron) schon committed 😢
+//            throw new IllegalStateException("Schade...");
+//        }
 
         // Care-Tasks anlegen -> jetzt im Listener (CareService.onPlantRegistered)
 //        careService.setupInitialCareTasks(

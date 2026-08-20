@@ -4,11 +4,8 @@ import nh.demo.plantify.plant.PlantRegisteredEvent;
 import nh.demo.plantify.shared.CareTaskType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -23,12 +20,9 @@ public class UsageTracker {
         this.usageRepository = usageRepository;
     }
 
-    // Jetzt: erst NACH dem Commit der Original-TX
-    //  -> @TransactionalEventListener  = erst nach Commit
-    //  -> @Async                       = eigener Thread
-    @TransactionalEventListener
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @Async
+    // Die drei Annotationen in einer:
+    //  @TransactionalEventListener + @Transactional(REQUIRES_NEW) + @Async
+    @ApplicationModuleListener
     void onPlantCreated(PlantRegisteredEvent event) {
         registerSetupFee(event.plantId(), event.ownerId());
     }
