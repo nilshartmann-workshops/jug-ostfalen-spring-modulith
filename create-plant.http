@@ -11,6 +11,9 @@ Content-Type: application/json
 #  - 👉 Preis der Entkopplung: Eventual Consistency
 #    Der Client hat sein 201 schon, während care_tasks/usage_records
 #    noch entstehen
+#
+# Mit @TransactionalEventListener:
+#  => UsageTracker + CareService werden gar nicht mehr ausgeführt
 
 {
   "location": "Balkon",

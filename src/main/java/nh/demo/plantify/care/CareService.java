@@ -7,11 +7,11 @@ import nh.demo.plantify.plant.PlantType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -31,9 +31,10 @@ public class CareService {
         this.careSuggestionService = careSuggestionService;
     }
 
-    // ⚠️ Eigener Thread => eigene Transaktion, unabhängig von registerPlant!
-    //   - gucken wir uns gleich an
-    @EventListener
+    // Jetzt: erst NACH dem Commit der Original-TX
+    //  -> @TransactionalEventListener  = erst nach Commit
+    //  -> @Async                       = eigener Thread
+    @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Async
     void onPlantRegistered(PlantRegisteredEvent event) {
