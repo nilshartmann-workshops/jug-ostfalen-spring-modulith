@@ -24,6 +24,18 @@ public class UsageTracker {
     //  @TransactionalEventListener + @Transactional(REQUIRES_NEW) + @Async
     @ApplicationModuleListener
     void onPlantCreated(PlantRegisteredEvent event) {
+        if (true) {
+            // 🤔 Was passiert, wenn hier was schiefgeht?
+            // Vor dem Zeigen nochmal DB leer machen!
+            //  - Tabellen "plants" und "care_tasks" befüllt ✅
+            //  - usage_record nicht, wir bekommen also kein Geld 😢
+            //
+            // 🕵️‍♂️ event_publication-Tabelle
+            //   - Zwei Einträge (pro Listener einer)
+            //   - completion_date ansehen (einmal gesetzt, einmal NULL)
+            throw new RuntimeException("Nö");
+        }
+
         registerSetupFee(event.plantId(), event.ownerId());
     }
 
