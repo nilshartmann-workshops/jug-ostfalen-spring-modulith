@@ -1,9 +1,8 @@
 package nh.demo.plantify.plant;
 
-import nh.demo.plantify.billing.UsageTracker;
-import nh.demo.plantify.care.CareService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +15,12 @@ class PlantService {
     private static final Logger log = LoggerFactory.getLogger(PlantService.class);
 
     private final PlantRepository plantRepository;
-    private final CareService careService;
-    private final UsageTracker usageTracker;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    PlantService(PlantRepository plantRepository, CareService careService, UsageTracker usageTracker) {
+    // Nur noch eine technische Abhängigkeit im Konstruktor:
+    PlantService(PlantRepository plantRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.plantRepository = plantRepository;
-        this.careService = careService;
-        this.usageTracker = usageTracker;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Transactional
@@ -32,26 +30,28 @@ class PlantService {
         var plant = new Plant(ownerId, name, plantType, location);
         plantRepository.save(plant);
 
-        // Ausführen: ./add-plant.sh
-        //
-        // Hier haben wir zwei Aufrufe von anderen Services
-        //
-        //  🤔 Was sind die Konsequenzen?
-
-
-        // Care-Tasks anlegen
-        careService.setupInitialCareTasks(
+        // Entkopplung: statt der beiden direkten Aufrufe nur noch ein Event publishen
+        //  -> IntelliJ kann zu den Listenern navigieren!
+        applicationEventPublisher.publishEvent(new PlantRegisteredEvent(
             plant.getId(),
             plant.getOwnerId(),
             plant.getPlantType(),
             plant.getLocation()
-        );
+        ));
 
-        // Einrichtungsgebühr berechnen
-        usageTracker.registerSetupFee(
-            plant.getId(),
-            plant.getOwnerId()
-        );
+        // Care-Tasks anlegen -> jetzt im Listener (CareService.onPlantRegistered)
+//        careService.setupInitialCareTasks(
+//            plant.getId(),
+//            plant.getOwnerId(),
+//            plant.getPlantType(),
+//            plant.getLocation()
+//        );
+
+        // Einrichtungsgebühr berechnen -> jetzt im Listener (UsageTracker.onPlantCreated)
+//        usageTracker.registerSetupFee(
+//            plant.getId(),
+//            plant.getOwnerId()
+//        );
 
         log.info("""
             

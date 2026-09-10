@@ -1,9 +1,13 @@
 package nh.demo.plantify.billing;
 
+import nh.demo.plantify.plant.PlantRegisteredEvent;
 import nh.demo.plantify.shared.CareTaskType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -19,8 +23,16 @@ public class UsageTracker {
         this.usageRepository = usageRepository;
     }
 
-    @Transactional
-    public void registerSetupFee(UUID plantId, UUID ownerId) {
+    // ⚠️ Eigener Thread => eigene Transaktion, unabhängig von registerPlant!
+    //   - gucken wir uns gleich an
+    @EventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Async
+    void onPlantCreated(PlantRegisteredEvent event) {
+        registerSetupFee(event.plantId(), event.ownerId());
+    }
+
+    private void registerSetupFee(UUID plantId, UUID ownerId) {
         UsageRecord usageRecord = new UsageRecord(
             ownerId,
             UsageRecord.UsageType.SETUP_FEE,

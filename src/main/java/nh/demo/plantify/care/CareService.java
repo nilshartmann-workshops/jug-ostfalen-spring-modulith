@@ -2,11 +2,15 @@ package nh.demo.plantify.care;
 
 import nh.demo.plantify.care.suggestions.CareSuggestion;
 import nh.demo.plantify.care.suggestions.CareSuggestionService;
+import nh.demo.plantify.plant.PlantRegisteredEvent;
 import nh.demo.plantify.plant.PlantType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -27,8 +31,16 @@ public class CareService {
         this.careSuggestionService = careSuggestionService;
     }
 
-    @Transactional
-    public void setupInitialCareTasks(UUID plantId, UUID ownerId, PlantType plantType, String location) {
+    // ⚠️ Eigener Thread => eigene Transaktion, unabhängig von registerPlant!
+    //   - gucken wir uns gleich an
+    @EventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Async
+    void onPlantRegistered(PlantRegisteredEvent event) {
+        setupInitialCareTasks(event.plantId(), event.ownerId(), event.plantType(), event.location());
+    }
+
+    private void setupInitialCareTasks(UUID plantId, UUID ownerId, PlantType plantType, String location) {
         var suggestionsForPlant = careSuggestionService.getBestSuggestionsByPlantType(
             plantType,
             location
